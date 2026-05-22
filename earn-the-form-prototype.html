@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FC Get A Quote — Earn the Form · Lo-fi Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-brand-primary:#E84B00; --color-brand-dark:#C33F00; --color-brand-tint-soft:#FFF0EB;
+      --color-text-heading:#1D1D1B; --color-text-body:#2D2A27; --color-text-weak:#6E6560;
+      --color-text-disabled:#A8A19B; --color-text-inverted:#FFFFFF; --color-text-brand:#E84B00;
+      --color-bg-base:#FFFFFF; --color-bg-container:#F9F7F4; --color-bg-section:#F2EDE8;
+      --color-border-weak:#E8E2DB; --color-border-strong:#C5BFB9;
+      --shadow-sm:0 1px 3px rgba(29,29,27,0.08),0 1px 2px rgba(29,29,27,0.04);
+      --shadow-md:0 4px 12px rgba(29,29,27,0.08),0 2px 4px rgba(29,29,27,0.04);
+      --sp-2xs:4px; --sp-xs:6px; --sp-s:8px; --sp-m:12px; --sp-l:16px;
+      --sp-xl:24px; --sp-2xl:32px; --sp-3xl:40px; --sp-4xl:48px; --sp-5xl:64px;
+      --r-xs:2px; --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-round:9999px;
+      --font-body:'Roboto',system-ui,sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--font-body);font-size:16px;line-height:1.5;color:var(--color-text-body);background:var(--color-bg-base);-webkit-font-smoothing:antialiased}
+    .screen{display:none}.screen.active{display:block}
+    .proto-banner{background:var(--color-text-heading);color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:0.6px;text-align:center;padding:7px var(--sp-l)}
+    .proto-banner strong{color:var(--color-brand-primary)}
+    .proto-banner .screens{margin-left:var(--sp-xl)}
+    .proto-banner .screens button{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.8);font-size:11px;padding:2px 10px;border-radius:var(--r-round);cursor:pointer;margin-left:6px}
+    .nav{position:sticky;top:0;z-index:100;height:60px;background:var(--color-bg-base);border-bottom:1px solid var(--color-border-weak);display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-2xl);box-shadow:var(--shadow-sm)}
+    .nav-logo{display:flex;align-items:center;gap:var(--sp-s);text-decoration:none}
+    .nav-logo-mark{width:36px;height:36px;background:var(--color-brand-primary);border-radius:var(--r-sm);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px}
+    .nav-logo-text{font-size:16px;font-weight:700;color:var(--color-text-heading)}
+    .nav-logo-text span{color:var(--color-brand-primary)}
+    .nav-right{display:flex;align-items:center;gap:var(--sp-xl)}
+    .nav-phone{font-size:15px;font-weight:600;color:var(--color-text-heading)}
+    .nav-btn{padding:8px 18px;background:var(--color-brand-primary);color:white;border:none;border-radius:var(--r-round);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-body)}
+    .page-outer{max-width:1240px;margin:0 auto;padding:0 var(--sp-2xl)}
+    .two-col{display:grid;grid-template-columns:1fr 300px;gap:var(--sp-5xl);padding:var(--sp-4xl) 0 var(--sp-5xl);align-items:start}
+    .col-main{min-width:0}.col-sidebar{position:sticky;top:76px}
+    .form-section{padding-bottom:var(--sp-3xl);margin-bottom:var(--sp-3xl);border-bottom:1px solid var(--color-border-weak)}
+    .form-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+    .hero-grid{display:grid;grid-template-columns:260px 1fr;gap:var(--sp-3xl);align-items:start}
+    .consultant-card{background:var(--color-bg-container);border:1px solid var(--color-border-weak);border-radius:var(--r-lg);padding:var(--sp-xl)}
+    .consultant-top{display:flex;gap:var(--sp-m);align-items:center;margin-bottom:var(--sp-m)}
+    .avatar{width:56px;height:56px;border-radius:var(--r-round);background:linear-gradient(135deg,#C5BFB9,#8A8480);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:white;flex-shrink:0}
+    .avatar.lg{width:72px;height:72px;font-size:24px}
+    .avatar.xl{width:88px;height:88px;font-size:32px;margin:0 auto var(--sp-xl);border:3px solid var(--color-brand-primary)}
+    .c-name{font-size:17px;font-weight:700;color:var(--color-text-heading)}
+    .c-spec{font-size:13px;color:var(--color-text-weak);margin-top:2px}
+    .c-trips{font-size:12px;color:var(--color-text-weak)}
+    .stars-row{display:flex;align-items:center;gap:var(--sp-s);margin-bottom:var(--sp-m)}
+    .stars{color:var(--color-brand-primary);font-size:14px;letter-spacing:1px}
+    .rating{font-size:12px;color:var(--color-text-weak)}
+    .testimonial{border-left:3px solid var(--color-brand-primary);padding-left:var(--sp-m)}
+    .testimonial p{font-size:13px;color:var(--color-text-body);font-style:italic;line-height:1.55;margin-bottom:4px}
+    .testimonial cite{font-size:12px;color:var(--color-text-weak);font-style:normal}
+    .hero-title{font-size:40px;font-weight:700;line-height:1.1;color:var(--color-text-heading);margin-bottom:var(--sp-m)}
+    .hero-title .brand{color:var(--color-brand-primary)}
+    .hero-sub{font-size:15px;color:var(--color-text-weak);max-width:380px;margin-bottom:var(--sp-xl)}
+    .value-props{display:flex;flex-direction:column;gap:var(--sp-s)}
+    .value-prop{display:flex;align-items:center;gap:var(--sp-m);font-size:15px;color:var(--color-text-body)}
+    .check{width:20px;height:20px;border-radius:var(--r-round);background:var(--color-brand-tint-soft);display:flex;align-items:center;justify-content:center;color:var(--color-brand-primary);font-size:11px;font-weight:700;flex-shrink:0}
+    .section-q{font-size:22px;font-weight:700;color:var(--color-text-heading);margin-bottom:var(--sp-xs)}
+    .section-sub{font-size:14px;color:var(--color-text-weak);margin-bottom:var(--sp-xl)}
+    .chip-row{display:flex;flex-wrap:wrap;gap:var(--sp-m);margin-bottom:var(--sp-m)}
+    .chip{display:inline-flex;align-items:center;gap:5px;padding:10px 22px;border-radius:var(--r-round);border:1.5px solid var(--color-text-heading);font-size:14px;font-weight:500;cursor:pointer;background:transparent;color:var(--color-text-body);font-family:var(--font-body);transition:all 0.15s;user-select:none}
+    .chip:hover{background:var(--color-bg-container)}
+    .chip.on{background:var(--color-brand-primary);border-color:var(--color-brand-primary);color:var(--color-text-inverted)}
+    .form-intro{font-size:13px;color:var(--color-text-weak);font-style:italic;margin-bottom:var(--sp-xl)}
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-l);margin-bottom:var(--sp-l)}
+    .fld{display:flex;flex-direction:column;gap:5px}
+    .fld label{font-size:13px;font-weight:500;color:var(--color-text-heading)}
+    .input-wrap{position:relative}
+    .input-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;color:var(--color-text-weak)}
+    .input-wrap input,.input-wrap select{width:100%;height:44px;padding:0 var(--sp-m) 0 36px;border:1.5px solid var(--color-border-strong);border-radius:var(--r-md);font-size:14px;color:var(--color-text-body);background:var(--color-bg-base);font-family:var(--font-body);transition:border-color 0.15s,box-shadow 0.15s;outline:none}
+    .input-wrap.no-icon input{padding-left:var(--sp-m)}
+    .input-wrap input:focus{border-color:var(--color-brand-primary);box-shadow:0 0 0 3px rgba(232,75,0,0.10)}
+    .input-wrap input::placeholder{color:var(--color-text-disabled)}
+    .autocomplete{position:absolute;top:calc(100% + 4px);left:0;right:0;background:white;border:1.5px solid var(--color-border-strong);border-radius:var(--r-md);box-shadow:var(--shadow-md);z-index:20;overflow:hidden}
+    .ac-item{padding:10px var(--sp-m);font-size:14px;cursor:pointer;display:flex;align-items:center;gap:var(--sp-s);transition:background 0.1s}
+    .ac-item:hover{background:var(--color-bg-container)}.ac-item.ac-top{background:rgba(232,75,0,0.05)}
+    .ac-popular{font-size:11px;color:var(--color-brand-primary);font-weight:500;margin-left:4px}
+    .check-row{display:flex;align-items:center;gap:var(--sp-s);cursor:pointer}
+    .check-row input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--color-brand-primary)}
+    .check-row span{font-size:13px;color:var(--color-text-weak)}
+    .travellers-box{border:1.5px solid var(--color-border-strong);border-radius:var(--r-md);padding:var(--sp-l);margin-bottom:var(--sp-l)}
+    .trav-row{display:flex;align-items:center;justify-content:space-between}
+    .trav-label{font-size:14px;font-weight:500;color:var(--color-text-body)}.trav-sub{font-size:12px;color:var(--color-text-weak)}
+    .divider{height:1px;background:var(--color-border-weak);margin:var(--sp-m) 0}
+    .stepper{display:flex;align-items:center;gap:var(--sp-m)}
+    .step-btn{width:32px;height:32px;border-radius:var(--r-round);border:1.5px solid var(--color-border-strong);background:white;font-size:20px;line-height:1;color:var(--color-text-heading);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+    .step-btn:hover{border-color:var(--color-brand-primary);color:var(--color-brand-primary)}
+    .step-n{font-size:18px;font-weight:600;min-width:24px;text-align:center}
+    .toggle-wrap{display:flex;align-items:center;justify-content:space-between}
+    .toggle{position:relative;display:inline-block;width:44px;height:24px;cursor:pointer;flex-shrink:0}
+    .toggle input{opacity:0;width:0;height:0;position:absolute}
+    .toggle-bg{position:absolute;inset:0;background:var(--color-border-strong);border-radius:var(--r-round);transition:background 0.2s}
+    .toggle input:checked + .toggle-bg{background:var(--color-brand-primary)}
+    .toggle-knob{position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:var(--r-round);box-shadow:var(--shadow-sm);transition:transform 0.2s}
+    .toggle input:checked ~ .toggle-knob{transform:translateX(20px)}
+    .children-block{display:none;padding-top:var(--sp-m);margin-top:var(--sp-m);border-top:1px dashed var(--color-border-weak);gap:var(--sp-l);flex-wrap:wrap;align-items:flex-end}
+    .children-block.open{display:flex}
+    .age-grp{display:flex;flex-direction:column;gap:4px}
+    .age-grp label{font-size:12px;color:var(--color-text-weak)}
+    .age-grp select{padding:7px 10px;border:1.5px solid var(--color-border-strong);border-radius:var(--r-sm);font-size:13px;background:white;cursor:pointer;height:auto;font-family:var(--font-body)}
+    .add-child{background:none;border:none;color:var(--color-brand-primary);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:var(--font-body);padding:0}
+    .fld-label{font-size:13px;font-weight:500;color:var(--color-text-heading);margin-bottom:var(--sp-m);display:block}
+    .slider-outer{padding:0 2px}
+    .slider-track{position:relative;height:4px;background:var(--color-border-weak);border-radius:var(--r-round);margin:var(--sp-l) 0 var(--sp-s)}
+    .slider-fill{position:absolute;left:0;top:0;bottom:0;background:var(--color-brand-primary);border-radius:var(--r-round);pointer-events:none}
+    input[type="range"]{position:absolute;width:100%;height:100%;top:50%;transform:translateY(-50%);appearance:none;background:transparent;cursor:pointer;margin:0;padding:0}
+    input[type="range"]::-webkit-slider-thumb{appearance:none;width:22px;height:22px;border-radius:50%;background:var(--color-brand-primary);border:3px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+    .slider-anchors{display:flex;justify-content:space-between;font-size:12px;color:var(--color-text-weak)}
+    .budget-val{font-size:15px;font-weight:600;color:var(--color-text-heading);margin-top:var(--sp-s)}
+    .budget-val em{color:var(--color-brand-primary);font-style:normal}
+    .interest-chips{display:flex;flex-wrap:wrap;gap:var(--sp-s)}
+    .i-chip{display:inline-flex;align-items:center;gap:4px;padding:7px 16px;border-radius:var(--r-round);border:1.5px solid var(--color-border-strong);font-size:13px;cursor:pointer;background:transparent;color:var(--color-text-body);font-family:var(--font-body);transition:all 0.15s}
+    .i-chip:hover{border-color:var(--color-brand-primary)}
+    .i-chip.on{background:var(--color-brand-primary);border-color:var(--color-brand-primary);color:var(--color-text-inverted)}
+    .contact-h{font-size:26px;font-weight:700;color:var(--color-text-heading);margin-bottom:var(--sp-s)}
+    .contact-sub{font-size:14px;color:var(--color-text-weak);margin-bottom:var(--sp-xl)}
+    .submit-btn{width:100%;padding:17px var(--sp-2xl);background:var(--color-brand-primary);color:white;border:none;border-radius:var(--r-md);font-size:17px;font-weight:600;cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:var(--sp-s);margin-top:var(--sp-xl);transition:background 0.15s,transform 0.08s}
+    .submit-btn:hover{background:var(--color-brand-dark)}.submit-btn:active{transform:scale(0.99)}
+    .privacy{font-size:12px;color:var(--color-text-weak);text-align:center;margin-top:var(--sp-m);line-height:1.6}
+    .privacy a{color:var(--color-brand-primary);text-decoration:none}
+    .sidebar-card{background:var(--color-bg-base);border:1.5px solid var(--color-border-weak);border-radius:var(--r-lg);padding:var(--sp-xl);box-shadow:var(--shadow-md)}
+    .sb-top{display:flex;gap:var(--sp-m);align-items:center;padding-bottom:var(--sp-l);border-bottom:1px solid var(--color-border-weak);margin-bottom:var(--sp-l)}
+    .sb-avatar{width:48px;height:48px;border-radius:var(--r-round);background:linear-gradient(135deg,#C5BFB9,#8A8480);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:white;flex-shrink:0}
+    .sb-name{font-size:15px;font-weight:700;color:var(--color-text-heading)}.sb-spec{font-size:12px;color:var(--color-text-weak);margin-top:2px}
+    .sb-promise{font-size:13px;color:var(--color-text-body);line-height:1.55;margin-bottom:var(--sp-m)}.sb-promise strong{color:var(--color-text-heading)}
+    .sb-stats{display:flex;flex-direction:column;gap:var(--sp-s);margin-bottom:var(--sp-l)}
+    .sb-stat{font-size:13px;color:var(--color-text-body);display:flex;align-items:center;gap:var(--sp-s)}
+    .sb-stat::before{content:'\2713';color:var(--color-brand-primary);font-weight:700;font-size:12px}
+    .switch-link{width:100%;padding:10px;border:1.5px solid var(--color-border-strong);border-radius:var(--r-md);background:white;font-size:13px;color:var(--color-text-body);cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;gap:6px;transition:border-color 0.15s,color 0.15s}
+    .switch-link:hover{border-color:var(--color-brand-primary);color:var(--color-brand-primary)}
+    .confirm-wrap{min-height:calc(100vh - 36px);display:flex;flex-direction:column}
+    .confirm-body{flex:1;display:flex;align-items:center;justify-content:center;padding:var(--sp-5xl) var(--sp-2xl)}
+    .confirm-card{max-width:560px;width:100%;text-align:center}
+    .confirm-sent{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--color-text-weak);margin-bottom:var(--sp-xl)}
+    .confirm-title{font-size:38px;font-weight:700;color:var(--color-text-heading);line-height:1.15;margin-bottom:var(--sp-l)}
+    .confirm-title .brand{color:var(--color-brand-primary)}
+    .confirm-text{font-size:15px;color:var(--color-text-body);line-height:1.65;margin-bottom:var(--sp-3xl)}
+    .confirm-text a{color:var(--color-brand-primary);text-decoration:none}
+    .meantime{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--color-text-weak);margin-bottom:var(--sp-l)}
+    .confirm-actions{display:flex;gap:var(--sp-m);justify-content:center;flex-wrap:wrap}
+    .btn-primary{padding:13px 26px;background:var(--color-brand-primary);color:white;border:none;border-radius:var(--r-md);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:background 0.15s}
+    .btn-primary:hover{background:var(--color-brand-dark)}
+    .btn-outline{padding:13px 26px;background:white;color:var(--color-text-body);border:1.5px solid var(--color-border-strong);border-radius:var(--r-md);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:border-color 0.15s}
+    .btn-outline:hover{border-color:var(--color-text-heading)}
+    .confirm-ref{margin-top:var(--sp-3xl);font-size:12px;color:var(--color-text-weak)}
+    .mobile-sticky{display:none;position:sticky;top:60px;z-index:80;background:white;border-bottom:1px solid var(--color-border-weak);padding:var(--sp-s) var(--sp-l);box-shadow:var(--shadow-sm)}
+    .m-chip{display:inline-flex;align-items:center;gap:var(--sp-s);background:var(--color-bg-container);border:1px solid var(--color-border-weak);border-radius:var(--r-round);padding:8px 14px;font-size:13px;color:var(--color-text-body);cursor:pointer}
+    .bs-overlay{display:none;position:fixed;inset:0;background:rgba(29,29,27,0.45);z-index:300;align-items:flex-end}
+    .bs-overlay.open{display:flex}
+    .bs-panel{background:white;border-radius:var(--r-lg) var(--r-lg) 0 0;padding:var(--sp-2xl);width:100%;animation:slideUp 0.25s ease}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .bs-handle{width:40px;height:4px;background:var(--color-border-strong);border-radius:var(--r-round);margin:0 auto var(--sp-xl)}
+    .bs-top{display:flex;gap:var(--sp-m);align-items:center;margin-bottom:var(--sp-m)}
+    .bs-actions{display:flex;gap:var(--sp-m);margin-top:var(--sp-xl)}
+    .bs-btn{flex:1;padding:11px;border-radius:var(--r-md);font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font-body)}
+    @media(max-width:960px){.two-col{grid-template-columns:1fr}.col-sidebar{display:none}.hero-grid{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.mobile-sticky{display:flex}}
+    @media(max-width:560px){.hero-title{font-size:30px}.confirm-title{font-size:28px}.page-outer{padding:0 var(--sp-l)}.nav{padding:0 var(--sp-l)}.confirm-actions{flex-direction:column}.chip-row{flex-direction:column}.chip{width:100%;justify-content:center}}
+  </style>
+</head>
+<body>
+
+<div class="proto-banner">
+  <strong>Lo-fi prototype</strong> &middot; Direction B: Earn the Form &middot; FC AU &middot; Get A Quote redesign v0.1
+  <span class="screens">Jump to:
+    <button onclick="gotoScreen('screen-form')">&#9312; Form</button>
+    <button onclick="gotoScreen('screen-confirm')">&#9313; Confirmation</button>
+  </span>
+</div>
+
+<div id="screen-form" class="screen active">
+  <nav class="nav">
+    <a class="nav-logo" href="#"><div class="nav-logo-mark">FC</div><span class="nav-logo-text">Flight <span>Centre</span></span></a>
+    <div class="nav-right"><span class="nav-phone">133 133</span><button class="nav-btn">Find a store</button></div>
+  </nav>
+  <div class="mobile-sticky">
+    <div class="m-chip" onclick="openBS()"><span>&#128100;</span><span>Talking to Kira &middot; Japan specialist</span><span style="color:var(--color-text-weak)">&#8595;</span></div>
+  </div>
+  <div class="page-outer">
+    <div class="two-col">
+      <div class="col-main">
+
+        <div class="form-section hero-grid">
+          <div class="consultant-card">
+            <div class="consultant-top">
+              <div class="avatar lg">KT</div>
+              <div><div class="c-name">Kira Tanaka</div><div class="c-spec">Japan &amp; SE Asia specialist</div><div class="c-trips">9 years &middot; 74 trips to Japan</div></div>
+            </div>
+            <div class="stars-row"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="rating">4.9 from 312 quotes</span></div>
+            <div class="testimonial">
+              <p>&ldquo;Kira routed our Tokyo&ndash;Kyoto&ndash;Osaka trip around cherry blossom peak and saved us three days of guesswork. The itinerary felt like a friend wrote it.&rdquo;</p>
+              <cite>&mdash; Sarah H., booked Mar 2025</cite>
+            </div>
+          </div>
+          <div>
+            <h1 class="hero-title">Tell <span class="brand">Kira</span> about<br>your trip.</h1>
+            <p class="hero-sub">Not a database. A note to a real travel consultant who&rsquo;ll write back.</p>
+            <div class="value-props">
+              <div class="value-prop"><span class="check">&#10003;</span> Personalised quote within 24 hours</div>
+              <div class="value-prop"><span class="check">&#10003;</span> No booking fees</div>
+              <div class="value-prop"><span class="check">&#10003;</span> Someone who&rsquo;s actually been there</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="section-q">How soon are you hoping to travel?</h2>
+          <p class="section-sub">No wrong answer. We&rsquo;re just figuring out who to match you with.</p>
+          <div class="chip-row" id="intent-group">
+            <button class="chip" onclick="pickChip(this,'intent-group')">Within 3 months</button>
+            <button class="chip" onclick="pickChip(this,'intent-group')">3 &ndash; 6 months</button>
+            <button class="chip on" onclick="pickChip(this,'intent-group')">Just exploring</button>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <p class="form-intro">&mdash; a few things that&rsquo;ll help Kira sketch something good &mdash;</p>
+          <div class="grid-2">
+            <div class="fld"><label>Where would you like to go?</label>
+              <div class="input-wrap" id="dest-wrap">
+                <span class="input-icon">&#128269;</span>
+                <input type="text" id="dest-input" placeholder="Try 'Japan', 'Bali', 'Europe'&hellip;" value="Tok" onfocus="showAC()" onblur="scheduleHideAC()" oninput="showAC()">
+                <div class="autocomplete" id="dest-ac">
+                  <div class="ac-item ac-top" onmousedown="selectDest('Tokyo, Japan')">&#127758; <strong>Tokyo, Japan</strong><span class="ac-popular">popular for Mar&ndash;Apr</span></div>
+                  <div class="ac-item" onmousedown="selectDest('Tokyo + Kyoto (2-city)')">&#127758; Tokyo + Kyoto <span style="color:var(--color-text-weak);font-size:12px">(2-city trip)</span></div>
+                  <div class="ac-item" onmousedown="selectDest('Tokelau')">&#127757; Tokelau</div>
+                </div>
+              </div>
+            </div>
+            <div class="fld"><label>Where are you travelling from?</label>
+              <div class="input-wrap"><span class="input-icon">&#128205;</span><input type="text" placeholder="Sydney, Melbourne, Brisbane&hellip;"></div>
+            </div>
+          </div>
+          <div class="grid-2" style="margin-bottom:var(--sp-s)">
+            <div class="fld"><label>Depart</label><div class="input-wrap"><span class="input-icon">&#128197;</span><input type="text" value="19 Mar 2026"></div></div>
+            <div class="fld"><label>Return</label>
+              <div class="input-wrap"><span class="input-icon">&#128197;</span><input type="text" value="28 Mar 2026"><span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--color-text-weak)">9 nights</span></div>
+            </div>
+          </div>
+          <label class="check-row" style="margin-bottom:var(--sp-xl)"><input type="checkbox" checked><span>I&rsquo;m flexible with my dates (&plusmn; a week or so)</span></label>
+
+          <div style="margin-bottom:var(--sp-l)">
+            <span class="fld-label">Travellers</span>
+            <div class="travellers-box">
+              <div class="trav-row">
+                <div><div class="trav-label">Adults</div><div class="trav-sub">18+</div></div>
+                <div class="stepper"><button class="step-btn" onclick="adj('adult-n',-1)">&minus;</button><span class="step-n" id="adult-n">2</span><button class="step-btn" onclick="adj('adult-n',1)">+</button></div>
+              </div>
+              <div class="divider"></div>
+              <div class="toggle-wrap">
+                <div><div class="trav-label">Any children?</div><div class="trav-sub">Under 18</div></div>
+                <label class="toggle"><input type="checkbox" id="child-toggle" checked onchange="toggleKids()"><div class="toggle-bg"></div><div class="toggle-knob"></div></label>
+              </div>
+              <div class="children-block open" id="kids-block">
+                <div class="age-grp"><label>Child 1</label><select><option>8 yrs</option><option>7 yrs</option><option>9 yrs</option></select></div>
+                <div class="age-grp"><label>Child 2</label><select><option>5 yrs</option><option>4 yrs</option><option>6 yrs</option></select></div>
+                <button class="add-child">+ Add child</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-bottom:var(--sp-xl)">
+            <span class="fld-label">Budget</span>
+            <div class="slider-outer">
+              <div class="slider-track"><div class="slider-fill" id="sl-fill" style="width:48%"></div><input type="range" min="0" max="100" value="48" oninput="updateBudget(this.value)"></div>
+              <div class="slider-anchors"><span>Budget</span><span>Mid-range</span><span>Premium</span></div>
+              <div class="budget-val" id="budget-val">AU$3,000 &ndash; <em>$5,000</em> per person</div>
+            </div>
+          </div>
+
+          <div>
+            <span class="fld-label">Interested in <span style="font-weight:400;color:var(--color-text-weak);font-size:13px">(select any that apply)</span></span>
+            <div class="interest-chips">
+              <button class="i-chip on" onclick="this.classList.toggle('on')">Flights</button>
+              <button class="i-chip on" onclick="this.classList.toggle('on')">Hotels</button>
+              <button class="i-chip" onclick="this.classList.toggle('on')">Flights + Hotels</button>
+              <button class="i-chip" onclick="this.classList.toggle('on')">Cruise</button>
+              <button class="i-chip" onclick="this.classList.toggle('on')">Tour</button>
+              <button class="i-chip" onclick="this.classList.toggle('on')">Car Hire</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="contact-h">Where should we send your quote?</h2>
+          <p class="contact-sub">Kira will write to you here within 24 hours. No marketing emails &mdash; just your quote.</p>
+          <div class="grid-2" style="margin-bottom:var(--sp-l)">
+            <div class="fld"><label>First name</label><div class="input-wrap no-icon"><input type="text" placeholder="e.g. Alex"></div></div>
+            <div class="fld"><label>Last name</label><div class="input-wrap no-icon"><input type="text"></div></div>
+          </div>
+          <div class="grid-2">
+            <div class="fld"><label>Email</label><div class="input-wrap"><span class="input-icon">&#9993;</span><input type="email" placeholder="you@example.com"></div></div>
+            <div class="fld"><label>Phone <span style="font-weight:400;color:var(--color-text-weak);font-size:11px">(optional &mdash; for quicker callback)</span></label>
+              <div class="input-wrap"><span class="input-icon" style="font-size:12px;left:10px">+61</span><input type="tel" style="padding-left:44px"></div>
+            </div>
+          </div>
+          <button class="submit-btn" onclick="gotoScreen('screen-confirm')">Send to Kira &rarr;</button>
+          <p class="privacy">By sending, you agree to Flight Centre&rsquo;s <a href="#">privacy policy</a>. We won&rsquo;t share your details &mdash; Kira reads them, no-one else.</p>
+        </div>
+
+      </div>
+      <aside class="col-sidebar">
+        <div class="sidebar-card">
+          <div class="sb-top"><div class="sb-avatar">KT</div><div><div class="sb-name">Kira Tanaka</div><div class="sb-spec">Japan &amp; SE Asia specialist &middot; 9 yrs</div></div></div>
+          <p class="sb-promise">Kira will respond within <strong>24 hours</strong> &mdash; reads every quote personally.</p>
+          <div class="sb-stats"><div class="sb-stat">9 years &middot; 74 trips to Japan</div><div class="sb-stat">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 from 312 quotes</div></div>
+          <button class="switch-link">Not your area? Switch &#8595;</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div id="screen-confirm" class="screen">
+  <div class="confirm-wrap">
+    <nav class="nav"><a class="nav-logo" href="#"><div class="nav-logo-mark">FC</div><span class="nav-logo-text">Flight <span>Centre</span></span></a><div class="nav-right"><span class="nav-phone">133 133</span></div></nav>
+    <div class="confirm-body">
+      <div class="confirm-card">
+        <p class="confirm-sent">&mdash; sent &mdash;</p>
+        <div class="avatar xl">KT</div>
+        <h1 class="confirm-title">Thanks, <span class="brand">Alex.</span><br>Kira&rsquo;s reading it now.</h1>
+        <p class="confirm-text">She&rsquo;ll be in touch within 24 hours at <a href="#">alex@example.com</a>. Check spam, just in case &mdash;<br>she signs off as <a href="#">kira.tanaka@flightcentre.com.au</a></p>
+        <p class="meantime">&mdash; in the meantime &mdash;</p>
+        <div class="confirm-actions">
+          <button class="btn-primary">Browse Japan itineraries &rarr;</button>
+          <button class="btn-outline">Read Kira&rsquo;s blog</button>
+        </div>
+        <p class="confirm-ref">Reference: FC&ndash;QT&ndash;2026&ndash;04991 &middot; Quote sent at 14:22 AEST</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bs-overlay" id="bs" onclick="closeBS(event)">
+  <div class="bs-panel" onclick="event.stopPropagation()">
+    <div class="bs-handle"></div>
+    <div class="bs-top"><div class="sb-avatar">KT</div><div><div class="sb-name">Kira Tanaka</div><div class="sb-spec">Japan &amp; SE Asia specialist &middot; 9 yrs</div></div></div>
+    <p class="sb-promise">Responds within <strong>24 hours</strong> &middot; reads every quote personally.</p>
+    <div class="sb-stats" style="margin-top:var(--sp-m)"><div class="sb-stat">9 years &middot; 74 trips to Japan</div><div class="sb-stat">&#9733;&#9733;&#9733;&#9733;&#9733; 4.9 from 312 quotes</div></div>
+    <div class="bs-actions">
+      <button class="bs-btn btn-outline" onclick="closeBS()">Switch consultant</button>
+      <button class="bs-btn btn-primary" onclick="closeBS()">Close &#8593;</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function gotoScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+  function pickChip(el,g){document.getElementById(g).querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on')}
+  function adj(id,d){const el=document.getElementById(id);let v=parseInt(el.textContent)+d;if(v<1)v=1;if(v>9)v=9;el.textContent=v}
+  function toggleKids(){document.getElementById('kids-block').classList.toggle('open',document.getElementById('child-toggle').checked)}
+  const bb=[['AU$1,000','$2,000'],['AU$1,500','$2,800'],['AU$2,500','$4,000'],['AU$3,000','$5,000'],['AU$4,500','$7,500'],['AU$7,000','$11,000'],['AU$12,000','$18,000']];
+  function updateBudget(val){document.getElementById('sl-fill').style.width=val+'%';const idx=Math.min(Math.round((val/100)*(bb.length-1)),bb.length-1);document.getElementById('budget-val').innerHTML=bb[idx][0]+' &ndash; <em>'+bb[idx][1]+'</em> per person'}
+  let t;function showAC(){clearTimeout(t);document.getElementById('dest-ac').style.display='block'}
+  function scheduleHideAC(){t=setTimeout(()=>{document.getElementById('dest-ac').style.display='none'},200)}
+  function selectDest(v){document.getElementById('dest-input').value=v;document.getElementById('dest-ac').style.display='none'}
+  function openBS(){document.getElementById('bs').classList.add('open')}
+  function closeBS(e){document.getElementById('bs').classList.remove('open')}
+  updateBudget(48);
+  document.getElementById('dest-ac').style.display='block';
+</script>
+</body>
+</html>
